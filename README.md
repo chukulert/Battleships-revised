@@ -1,1 +1,1 @@
-Battleships
+Revised version of battleships
