@@ -255,4 +255,4 @@ const changeGameMode = () => {
   }
 };
 
-export { renderAll };
+export { renderAll, renderShipsOnBoard };
