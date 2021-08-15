@@ -1,24 +1,21 @@
-import Ship from "./ship";
 import Gameboard from "./board";
-import dragFunctions from "./dragfunctions";
-
-import { renderAll } from "./dom";
+import Player from "./player";
 
 const gamePlay = {
   data: {
     gameboards: {},
+    players: {},
     gameon: false,
   },
 
   setup() {
     this.data.gameboards.playerBoard = new Gameboard();
     this.data.gameboards.computerBoard = new Gameboard();
+    this.data.players.humanPlayer = new Player("Player");
+    this.data.players.computerPlayer = new Player("Computer");
 
     this.data.gameboards.playerBoard.createBoard();
     this.data.gameboards.computerBoard.createBoard();
-
-    // this.data.players.humanPlayer = new Player
-    // this.data.players.computerPlayer = new Player
   },
 
   addShips() {
@@ -90,14 +87,14 @@ const gamePlay = {
     if (
       this.data.gameboards.playerBoard.ships.every((ship) => ship.sunk === true)
     ) {
-      return "Computer";
+      return `${this.data.players.computerPlayer.name}`;
     }
     if (
       this.data.gameboards.computerBoard.ships.every(
         (ship) => ship.sunk === true
       )
     ) {
-      return "Player";
+      return `${this.data.players.humanPlayer.name}`;
     }
     return false;
   },

@@ -1,5 +1,3 @@
-import Ship from "./ship";
-import Gameboard from "./board";
 import dragFunctions from "./dragfunctions";
 import gamePlay from "./gameplay";
 
@@ -63,12 +61,16 @@ const clearContainer = (container) => {
   }
 };
 
+const message = (message) => {
+  const displayGameInfo = document.querySelector(".game-info");
+  displayGameInfo.textContent = message;
+};
+
 const applySelectorsAndListeners = () => {
   const startBtn = document.querySelector("#start-btn");
   const rotateBtn = document.querySelector("#rotate-btn");
   const resetBtn = document.querySelector("#reset-btn");
   const randomPlaceBtn = document.querySelector("#random-btn");
-  const displayGameInfo = document.querySelector(".game-info");
   rotateBtn.addEventListener("click", rotatePlayerShips);
   startBtn.addEventListener("click", startGame);
   resetBtn.addEventListener("click", resetGame);
@@ -85,18 +87,17 @@ const renderAll = () => {
   renderBoard(gamePlay.data.gameboards.computerBoard, computerGrid);
   renderShipsOnBoard(gamePlay.data.gameboards.computerBoard, computerGrid);
   renderSelectionGrid(gamePlay.data.gameboards.playerBoard.ships);
+  dragFunctions.addDragListeners();
 
-  displayGameInfo.textContent = "Drag and drop your ships to begin!";
+  message("Drag and drop your ships to begin!");
 };
 
 const randomPlacePlayerShips = () => {
   const playerGrid = document.querySelector(".playerGrid");
   const playerSelectGrid = document.querySelector(".selection-grid");
-  const displayGameInfo = document.querySelector(".game-info");
   const takenTiles = playerGrid.getElementsByClassName("taken");
   if (takenTiles.length > 0) {
-    displayGameInfo.textContent =
-      "Please reset the board before you may randomly place ships";
+    message("Please reset the board before you may randomly place ships");
     return;
   }
   clearContainer(playerSelectGrid);
@@ -105,7 +106,7 @@ const randomPlacePlayerShips = () => {
     gamePlay.data.gameboards.playerBoard.ships
   );
   renderShipsOnBoard(gamePlay.data.gameboards.playerBoard, playerGrid);
-  displayGameInfo.textContent = "All ships deployed! Click Start Game to play!";
+  message("All ships deployed! Click Start Game to play!");
 };
 
 const resetGame = () => {
@@ -113,6 +114,7 @@ const resetGame = () => {
   const playerGrid = document.querySelector(".playerGrid");
   const playerSelectGrid = document.querySelector(".selection-grid");
 
+  playerSelectGrid.classList.remove("horizontal");
   clearContainer(playerGrid);
   clearContainer(computerGrid);
   clearContainer(playerSelectGrid);
@@ -126,9 +128,8 @@ const resetGame = () => {
 const startGame = () => {
   const playerSelectGrid = document.querySelector(".selection-grid");
   const ship = document.querySelector(".ship");
-  const displayGameInfo = document.querySelector(".game-info");
   if (playerSelectGrid.contains(ship)) {
-    displayGameInfo.textContent = "Please deploy all ships to start game";
+    message("Please deploy all ships to start game");
     return;
   }
   gamePlay.data.gameon = true;
@@ -149,21 +150,23 @@ const playerAttack = (e) => {
   const computerBoard = gamePlay.data.gameboards.computerBoard;
   const displayGameInfo = document.querySelector(".game-info");
   let index = e.target.id;
-  if (e.target.classList.contains("hit") || e.target.classList.contains("miss"))
+  //   const classes = ['hit', 'miss', 'sunk']
+  if (
+    e.target.classList.contains("hit") ||
+    e.target.classList.contains("miss") ||
+    e.target.classList.contains("sunk")
+  )
     return;
 
   const shipName = e.target.classList[2];
   const boardReturnInfo = gamePlay.updateBoardInfo(index, computerBoard);
-  console.log(boardReturnInfo);
 
   switch (boardReturnInfo) {
     case "miss":
       e.target.classList.add("miss");
-      console.log("miss");
       break;
     case "hit":
       e.target.classList.add("hit");
-      console.log("hit");
       break;
     case "sunk":
       const shipTiles = computerGrid.querySelectorAll(`.${shipName}`);
@@ -172,7 +175,6 @@ const playerAttack = (e) => {
       });
       break;
     default:
-      console.log("default");
       return;
   }
   const gameOver = gamePlay.checkIfGameOver();
@@ -180,7 +182,7 @@ const playerAttack = (e) => {
     disableClicks();
     displayGameInfo.textContent = `Game Over! ${gameOver} wins!`;
   } else {
-    computerAttack();
+    return computerAttack();
   }
 };
 
@@ -188,34 +190,28 @@ const computerAttack = () => {
   const playerBoard = gamePlay.data.gameboards.playerBoard;
   const playerGrid = document.querySelector(".playerGrid");
   const playerGridTiles = playerGrid.querySelectorAll("div");
-  let index = playerBoard.generateRandomNumber();
-  if (
-    playerGridTiles[index].classList.contains("hit") ||
-    playerGridTiles[index].classList.contains("miss")
-  )
-    computerAttack();
+  let index = gamePlay.data.players.computerPlayer.attackBoard(playerBoard);
 
   const boardReturnInfo = gamePlay.updateBoardInfo(index, playerBoard);
 
   switch (boardReturnInfo) {
     case "miss":
       playerGridTiles[index].classList.add("miss");
-      console.log("miss");
       break;
     case "hit":
       playerGridTiles[index].classList.add("hit");
-      console.log("hit");
       break;
     case "sunk":
+      const shipName = playerGridTiles[index].classList[2];
       const shipTiles = playerGrid.querySelectorAll(`.${shipName}`);
       shipTiles.forEach((tile) => {
         tile.classList.add("sunk");
       });
       break;
     default:
-      console.log("default");
       return;
   }
+
   const gameOver = gamePlay.checkIfGameOver();
   if (gameOver) {
     disableClicks();

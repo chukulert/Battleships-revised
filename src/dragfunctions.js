@@ -15,7 +15,9 @@ const dragFunctions = {
     ships.forEach((ship) =>
       ship.addEventListener("dragstart", dragFunctions.dragStart)
     );
-    ships.forEach((ship) => ship.addEventListener("dragend", dragFunctions.dragEnd));
+    ships.forEach((ship) =>
+      ship.addEventListener("dragend", dragFunctions.dragEnd)
+    );
     playerGridTiles.forEach((square) =>
       square.addEventListener("dragstart", dragFunctions.dragStart)
     );
@@ -46,8 +48,8 @@ const dragFunctions = {
   dragStart(e) {
     selectedShipContainer = e.target;
     setTimeout(() => {
-        selectedShipContainer.add('hide');
-      }, 0);
+      selectedShipContainer.classList.add("hide");
+    }, 0);
   },
 
   dragEnter(e) {
@@ -59,13 +61,13 @@ const dragFunctions = {
   },
 
   dragLeave(e) {
-    e.preventDefault()
+    e.preventDefault();
   },
 
   dragEnd(e) {
-    e.preventDefault()
-    console.log(selectedShipContainer)
-    selectedShipContainer.classList.remove('hide')
+    e.preventDefault();
+    console.log(selectedShipContainer);
+    selectedShipContainer.classList.remove("hide");
   },
 
   dragDrop(e) {
@@ -77,11 +79,23 @@ const dragFunctions = {
 
     if (ship.direction === "vertical") {
       adjustedBoardTile = parseInt(e.target.id) - selectedShipPart * 10;
-      if(!(adjustedBoardTile < playerBoard.WIDTH * (playerBoard.WIDTH - ship.shipLength + 1))) return
+      if (
+        !(
+          adjustedBoardTile <
+          playerBoard.WIDTH * (playerBoard.WIDTH - ship.shipLength + 1)
+        )
+      )
+        return;
     }
     if (ship.direction === "horizontal") {
       adjustedBoardTile = parseInt(e.target.id) - selectedShipPart;
-      if(!(adjustedBoardTile % playerBoard.WIDTH < playerBoard.WIDTH - ship.shipLength + 1)) return; 
+      if (
+        !(
+          adjustedBoardTile % playerBoard.WIDTH <
+          playerBoard.WIDTH - ship.shipLength + 1
+        )
+      )
+        return;
     }
     let coordinatesArr = playerBoard.generateShipCoords(
       adjustedBoardTile,
