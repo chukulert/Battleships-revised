@@ -181,7 +181,7 @@ body{
 }
 
 .computerGrid > .taken{
-    background-color: black;
+    background-color: transparent;
 }
 
 .hidden{

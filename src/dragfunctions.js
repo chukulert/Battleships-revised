@@ -66,7 +66,6 @@ const dragFunctions = {
 
   dragEnd(e) {
     e.preventDefault();
-    console.log(selectedShipContainer);
     selectedShipContainer.classList.remove("hide");
   },
 

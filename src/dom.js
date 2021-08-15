@@ -80,7 +80,6 @@ const applySelectorsAndListeners = () => {
 const renderAll = () => {
   const playerGrid = document.querySelector(".playerGrid");
   const computerGrid = document.querySelector(".computerGrid");
-  const displayGameInfo = document.querySelector(".game-info");
 
   applySelectorsAndListeners();
   renderBoard(gamePlay.data.gameboards.playerBoard, playerGrid);
@@ -148,7 +147,6 @@ const disableClicks = () => {
 const playerAttack = (e) => {
   const computerGrid = document.querySelector(".computerGrid");
   const computerBoard = gamePlay.data.gameboards.computerBoard;
-  const displayGameInfo = document.querySelector(".game-info");
   let index = e.target.id;
   //   const classes = ['hit', 'miss', 'sunk']
   if (
@@ -180,7 +178,7 @@ const playerAttack = (e) => {
   const gameOver = gamePlay.checkIfGameOver();
   if (gameOver) {
     disableClicks();
-    displayGameInfo.textContent = `Game Over! ${gameOver} wins!`;
+    message(`Game Over! ${gameOver} wins!`);
   } else {
     return computerAttack();
   }
@@ -215,20 +213,19 @@ const computerAttack = () => {
   const gameOver = gamePlay.checkIfGameOver();
   if (gameOver) {
     disableClicks();
-    displayGameInfo.textContent = `Game Over! ${gameOver} wins!`;
+    message(`Game Over! ${gameOver} wins!`);
   }
 };
 
 const changeGameMode = () => {
   const playerSelectGrid = document.querySelector(".selection-grid");
-  const displayGameInfo = document.querySelector(".game-info");
   const computerGrid = document.querySelector(".computerGrid");
   const startBtn = document.querySelector("#start-btn");
   const rotateBtn = document.querySelector("#rotate-btn");
   const randomPlaceBtn = document.querySelector("#random-btn");
 
   if (gamePlay.data.gameon === false) {
-    displayGameInfo.textContent = "Drag and drop your ships to begin!";
+     message("Drag and drop your ships to begin!")
     computerGrid.classList.add("hidden");
     startBtn.classList.remove("hidden");
     rotateBtn.classList.remove("hidden");
@@ -237,7 +234,7 @@ const changeGameMode = () => {
   }
 
   if (gamePlay.data.gameon === true) {
-    displayGameInfo.textContent = "Click on an enemy tile to attack!";
+    message("Click on an enemy tile to attack!");
     computerGrid.classList.remove("hidden");
     startBtn.classList.add("hidden");
     rotateBtn.classList.add("hidden");

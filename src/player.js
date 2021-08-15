@@ -8,9 +8,7 @@ class Player {
          gameboard.board.forEach((tile, index)=>{
             if(tile === null || !tile.hasOwnProperty('status')) possibleSpots.push(index)
         })
-        console.log(possibleSpots)
         const randomSpot = possibleSpots[Math.floor(Math.random() * possibleSpots.length)]
-        console.log(randomSpot)
         return randomSpot
     }
 
@@ -58,13 +56,10 @@ class Player {
         if(Math.abs(hitsArr[0] - hitsArr[1]) === 1) possibleShipDirection = 'horizontal'
 
         if(possibleShipDirection === 'vertical' && this.checkForValidTiles(min, [min - 10, max + 10], gameboard).length === 0) {
-        console.log('YESSSSSSSS')
         possibleShipDirection = 'horizontal'}
 
         if(possibleShipDirection === 'horizontal' && this.checkForValidTiles(min, [min - 1, max + 1], gameboard).length === 0){
-        console.log('NOOOOOO')
         possibleShipDirection = 'vertical'}
-        console.log(possibleShipDirection)
         return possibleShipDirection
     }
 
@@ -82,7 +77,6 @@ class Player {
                 bestAttackSpot = min - 1
             else if(this.checkForValidTiles(max, [max + 1], gameboard).length) bestAttackSpot = max + 1
         }
-        console.log(bestAttackSpot)
         return bestAttackSpot
     }    
 
@@ -90,21 +84,17 @@ class Player {
         let bestAttackSpot
         const hitsArr = this.checkForHits(gameboard)
         if(!hitsArr.length){
-            console.log('NOOOOOOOOOOOO')
             bestAttackSpot = this.randomAttackValidSpots(gameboard)
         }
         if(hitsArr.length === 1){
-            console.log('NOOOOOOOOOOOO????????')
             const surroundingTiles = this.checkForSurroundingTiles([hitsArr], gameboard)
             bestAttackSpot = surroundingTiles[0]
         }
         if(hitsArr.length > 1){
-            console.log('NOOOOOOOOOOOO????????!!!!!!!!!!!')
             const possibleShipDirection = this.checkForPossibleShipDirection(hitsArr, gameboard)
 
             bestAttackSpot = this.attackShipDirection(hitsArr, possibleShipDirection, gameboard)
         }
-        console.log(bestAttackSpot)
         return bestAttackSpot
     }
 }
