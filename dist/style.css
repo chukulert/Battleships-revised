@@ -1,9 +1,11 @@
 :root {
-    --background-light: #f7e6cf;
+    --background-light: #E5DADA;
     --grid-board: #0e6384;
     --grid-border: #e2e0e0;
-    --ship-color: #91b6bf;
-    --btn-color: #750541;
+    --select-container: #91b6bf;
+    --btn-color: #002642;
+    --rich-black: #080708;
+    --text-info: #840032;
 }
 
 *,
@@ -16,7 +18,7 @@ margin: 0;
 
 body{
     background-color: var(--background-light);
-    color: black;
+    color: var(--rich-black);
     font-family: sans-serif;
 }
 
@@ -34,8 +36,19 @@ body{
     color: var(--btn-color)
 }
 
+.board-header{
+    font-family: inherit;
+    font-size: 1.5em;
+    font-weight: 600;
+    display: flex;
+}
+
+.board-header > div {
+    margin: 2rem 5rem 0;
+}
+
 .main-display{
-    height: 70vh;
+    height: 50vh;
 }
 
 .gridBoard{
@@ -58,7 +71,7 @@ body{
 .ship > div {
     width: 4.5vmin;
     height: 4.5vmin;
-    background-color: black;
+    background-color: var(--rich-black);
     border: 1px solid var(--grid-border);
 }
   
@@ -76,11 +89,7 @@ body{
     cursor: pointer;
 }
 .computerGrid > .tile:hover{
-    background-color: var(--ship-color);
-}
-
-.sub-section{
-
+    background-color: var(--select-container);
 }
 
 .buttons{
@@ -103,7 +112,7 @@ body{
     background-color: var(--btn-color);
     color: white;
     font-family: inherit;
-    border: 1px solid black;
+    border: none;
     border-radius: 1rem;
     font-size: 1.5rem;
     padding: .2em .4em;
@@ -115,12 +124,10 @@ body{
     background-color: white;
 }
 
-.turn{
-
-}
-
 .game-info{
     padding: 0 0 2em 0;
+    color: var(--text-info);
+    font-weight: bold;
 }
 
 .selection-grid{
@@ -128,8 +135,7 @@ body{
     width: calc(10*4.5vmin);
     height: calc(10*4.5vmin);
     justify-content: space-around;
-    border: 2px solid var(--grid-board);
-    background-color: lightblue;
+    background-color: var(--select-container);
 }
 
 .horizontal{
@@ -177,7 +183,7 @@ body{
 }
 
 .taken{
-    background-color: black;
+    background-color: var(--rich-black)
 }
 
 .computerGrid > .taken{

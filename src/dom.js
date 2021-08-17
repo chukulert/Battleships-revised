@@ -223,6 +223,7 @@ const changeGameMode = () => {
   const startBtn = document.querySelector("#start-btn");
   const rotateBtn = document.querySelector("#rotate-btn");
   const randomPlaceBtn = document.querySelector("#random-btn");
+  const boardHeaders = document.querySelector('.board-header')
 
   if (gamePlay.data.gameon === false) {
      message("Drag and drop your ships to begin!")
@@ -231,6 +232,7 @@ const changeGameMode = () => {
     rotateBtn.classList.remove("hidden");
     randomPlaceBtn.classList.remove("hidden");
     playerSelectGrid.classList.remove("hidden");
+    boardHeaders.classList.add('hidden')
   }
 
   if (gamePlay.data.gameon === true) {
@@ -240,6 +242,7 @@ const changeGameMode = () => {
     rotateBtn.classList.add("hidden");
     randomPlaceBtn.classList.add("hidden");
     playerSelectGrid.classList.add("hidden");
+    boardHeaders.classList.remove('hidden')
 
     const computerTiles = computerGrid.querySelectorAll("div");
     computerTiles.forEach((tile) => {
